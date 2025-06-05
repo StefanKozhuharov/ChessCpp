@@ -9,11 +9,13 @@ private:
 	PIECES pieceType; //stores the type of the piece (pawn, king, knight etc.)
 	const wchar_t* visualizationCode; //stores the code behind the visualization for the piece in the console
 	void updateVisualizationCode(); //sets the square to the appropriate piece or leaves it empty
+	virtual int* generateMoves(); //function to generate every move a piece can make
 
 public:
 
 	Piece();
-	Piece(COLOURS pieceColour, PIECES pieceType);
+	Piece(COLOURS pieceColour, PIECES pieceType); 
+	virtual ~Piece() = default;
 
 	COLOURS getPieceColour() const;
 	PIECES getPieceType() const;

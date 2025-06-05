@@ -66,3 +66,9 @@ bool Piece::isEmpty() const {
 		return pieceColour == NONE || pieceType == EMPTY;
 
 }
+
+int* Piece::generateMoves() {
+
+	return nullptr;
+
+}
