@@ -1,14 +1,17 @@
 #include "Pawn.h"
 #include "constants.h"
 
-Pawn::Pawn(COLOURS pieceColour) : Piece(pieceColour, PAWN) {
+const int TWO_TOP = 16; //moves two squares up
+const int NUMBER_OF_MOVES = 4;
 
-	const int PAWN_MOVES[4] = {
+Pawn::Pawn(COLOURS pieceColour) : Piece(pieceColour, PAWN, false) {
 
-		7, //moves to the top left corner
-		8, //moves one square up
-		9, //moves to the top right corner
-		16 //moves two squares up
+	const int PAWN_MOVES[NUMBER_OF_MOVES] = {
+
+		TOP_LEFT, 
+		TOP, 
+		TOP_RIGHT, 
+		TWO_TOP
 
 	};
 

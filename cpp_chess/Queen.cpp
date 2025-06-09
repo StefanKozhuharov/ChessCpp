@@ -1,18 +1,20 @@
 #include "Queen.h"
 #include "constants.h"
 
-Queen::Queen(COLOURS pieceColour) : Piece(pieceColour, QUEEN) {
+const int NUMBER_OF_MOVES = 8;
 
-	const int QUEEN_MOVES[8] = {
+Queen::Queen(COLOURS pieceColour) : Piece(pieceColour, QUEEN, false) {
 
-		-9, //moves to the top left corner
-		-8, //moves one square up
-		-7, //moves to the top right corner
-		-1, //moves one square left
-		1, //moves one square right
-		7, //moves to the bottom left corner
-		8, //moves one square down
-		9 //moves to the bottom right corner
+	const int QUEEN_MOVES[NUMBER_OF_MOVES] = {
+
+		TOP_LEFT,
+		TOP,
+		TOP_RIGHT,
+		LEFT,
+		RIGHT,
+		BOTTOM_LEFT,
+		BOTTOM,
+		BOTTOM_RIGHT
 
 	};
 

@@ -1,14 +1,16 @@
 #include "Rook.h"
 #include "constants.h"
 
-Rook::Rook(COLOURS pieceColour) : Piece(pieceColour, ROOK) {
+const int NUMBER_OF_MOVES = 4;
 
-	const int ROOK_MOVES[4] = {
+Rook::Rook(COLOURS pieceColour) : Piece(pieceColour, ROOK, true) {
 
-		-8, //moves one square up
-		-1, //moves one square left
-		1, //moves one square right
-		8 //moves one square down
+	const int ROOK_MOVES[NUMBER_OF_MOVES] = {
+
+		TOP, 
+		LEFT, 
+		RIGHT, 
+		BOTTOM 
 
 	};
 

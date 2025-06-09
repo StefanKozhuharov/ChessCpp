@@ -1,21 +1,113 @@
 #include "King.h"
 #include "constants.h"
+#include "utils.h"
 
-King::King(COLOURS pieceColour) : Piece(pieceColour, KING) {
+const int NUMBER_OF_MOVES = 10;
+const int TWO_LEFT = -2;
+const int TWO_RIGHT = 2;
 
-	const int KING_MOVES[8] = {
+King::King(COLOURS pieceColour) : Piece(pieceColour, KING, true) {}
 
-		-9, //moves to the top left corner
-		-8, //moves one square up
-		-7, //moves to the top right corner
-		-1, //moves one square left
-		1, //moves one square right
-		7, //moves to the top left corner 
-		8, //moves one square down
-		9 //moves to the top right corner
+bool King::isValidOffset(int currentPosition, int candidateOffset) {
+
+	const int KING_MOVES[NUMBER_OF_MOVES] = {
+
+		TOP_LEFT,
+		TOP,
+		TOP_RIGHT,
+		TWO_LEFT,
+		LEFT,
+		TWO_RIGHT,
+		RIGHT,
+		BOTTOM_LEFT,
+		BOTTOM,
+		BOTTOM_RIGHT
 
 	};
 
+	for (size_t i = 0; i < NUMBER_OF_MOVES; i++) {
 
+		if (candidateOffset == KING_MOVES[i]) {
+
+			if (!isFirstColumnException(currentPosition, candidateOffset) && !isEighthColumnException(currentPosition, candidateOffset)) {
+
+				return true;
+
+			}
+
+			return false;
+
+		}
+
+	}
+
+	return false;
+
+}
+
+bool King::isFirstColumnException(int currentPosition, int candidateOffset) {
+
+	if (isFirstColumn(currentPosition) && (candidateOffset == TOP_LEFT || candidateOffset == LEFT || candidateOffset == BOTTOM_LEFT || candidateOffset == TWO_LEFT)) {
+
+		return true;
+
+	}
+
+	return false;
+
+}
+
+bool King::isEighthColumnException(int currentPosition, int candidateOffset) {
+
+	if (isEighthColumn(currentPosition) && (candidateOffset == TOP_RIGHT || candidateOffset == RIGHT || candidateOffset == BOTTOM_RIGHT || candidateOffset == TWO_RIGHT)) {
+
+		return true;
+
+	}
+
+	return false;
+
+}
+
+bool King::canAttack(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]) {
+
+	int candidateOffset = destination - currentPosition;
+
+	if (candidateOffset == 2 || candidateOffset == -2) {
+
+		return false;
+
+	}
+
+	return true;
+
+}
+
+bool King::canMove(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]) {
+
+	int candidateOffset = destination - currentPosition;
+
+	if (candidateOffset == 2  || candidateOffset == -2) {
+
+		if (!isValidCastle(currentPosition, destination, board)) {
+
+			return false;
+
+		}
+		else {
+
+			return true;
+
+		}
+
+	}
+
+	return true;
+
+}
+
+bool King::isValidCastle(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]) {
+
+	return true; //TODO
 
 }

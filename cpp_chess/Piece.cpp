@@ -1,9 +1,9 @@
 #include "constants.h"
 #include "Piece.h"
 
-Piece::Piece() : pieceColour(NONE), pieceType(EMPTY), visualizationCode(L" ") {}
+Piece::Piece() : pieceColour(NONE), pieceType(EMPTY), visualizationCode(L" "), canCastle(false) {}
 
-Piece::Piece(COLOURS pieceColour, PIECES pieceType) : pieceColour(pieceColour), pieceType(pieceType) {
+Piece::Piece(COLOURS pieceColour, PIECES pieceType, bool canCastle) : pieceColour(pieceColour), pieceType(pieceType), canCastle(canCastle) {
 
 	updateVisualizationCode();
 
@@ -24,6 +24,12 @@ PIECES Piece::getPieceType() const {
 const wchar_t* Piece::getVisualizationCode() const {
 
 	return visualizationCode;
+
+}
+
+bool Piece::getCanCastle() const {
+
+	return canCastle;
 
 }
 
@@ -73,13 +79,33 @@ void Piece::setPieceType(PIECES pieceType) {
 
 }
 
+void Piece::setCanCastle(bool canCastle) {
+
+	this->canCastle = canCastle;
+
+}
+
 bool Piece::isEmpty() const {
 
 		return pieceColour == NONE || pieceType == EMPTY;
 
 }
 
+bool Piece::isValidOffset(int currentPosition, int candidateOffset) {
+
+	return false;
+
+}
+
 bool Piece::isLegalMove(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]) {
+
+	int candidateOffset = destination - currentPosition;
+
+	if (destination < 0 || destination >= BOARD_SIZE * BOARD_SIZE || !isValidOffset(currentPosition, candidateOffset) || isEmpty()) {
+
+		return false;
+
+	}
 
 	if (board[destination]->getPieceColour() == NONE) {
 

@@ -2,6 +2,15 @@
 
 const int BOARD_SIZE = 8;
 
+const int TOP_LEFT = -9;  // moves to the top left corner
+const int TOP = -8;  // moves one square up
+const int TOP_RIGHT = -7;  // moves to the top right corner
+const int LEFT = -1;  // moves one square left
+const int RIGHT = 1;  // moves one square right
+const int BOTTOM_LEFT = 7;  // moves to the bottom left corner
+const int BOTTOM = 8;  // moves one square down
+const int BOTTOM_RIGHT = 9;  // moves to the bottom right corner
+
 const enum COLOURS {
 
 	NONE = -1,
