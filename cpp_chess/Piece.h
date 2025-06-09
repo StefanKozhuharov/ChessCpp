@@ -9,12 +9,13 @@ private:
 	PIECES pieceType; //stores the type of the piece (pawn, king, knight etc.)
 	const wchar_t* visualizationCode; //stores the code behind the visualization for the piece in the console
 	void updateVisualizationCode(); //sets the square to the appropriate piece or leaves it empty
-	virtual int* generateMoves(); //function to generate every move a piece can make
+	virtual bool canAttack(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]); //checks if a specific piece can move to attack an enemy piece
+	virtual bool canMove(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]); //checks if a specific piece can move to an empty square
 
 public:
 
 	Piece();
-	Piece(COLOURS pieceColour, PIECES pieceType); 
+	Piece(COLOURS pieceColour, PIECES pieceType);
 	virtual ~Piece() = default;
 
 	COLOURS getPieceColour() const;
@@ -25,5 +26,7 @@ public:
 	void setPieceType(PIECES pieceType);
 
 	bool isEmpty() const;
+
+	bool isLegalMove(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]); //checks rules that every piece needs to follow
 
 };

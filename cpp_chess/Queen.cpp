@@ -3,7 +3,7 @@
 
 Queen::Queen(COLOURS pieceColour) : Piece(pieceColour, QUEEN) {
 
-	const int rookMoves[8] = {
+	const int QUEEN_MOVES[8] = {
 
 		-9, //moves to the top left corner
 		-8, //moves one square up

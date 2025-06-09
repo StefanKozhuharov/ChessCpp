@@ -3,7 +3,7 @@
 
 King::King(COLOURS pieceColour) : Piece(pieceColour, KING) {
 
-	const int kingMoves[8] = {
+	const int KING_MOVES[8] = {
 
 		-9, //moves to the top left corner
 		-8, //moves one square up
@@ -15,5 +15,7 @@ King::King(COLOURS pieceColour) : Piece(pieceColour, KING) {
 		9 //moves to the top right corner
 
 	};
+
+
 
 }

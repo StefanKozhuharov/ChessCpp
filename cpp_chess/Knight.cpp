@@ -3,7 +3,7 @@
 
 Knight::Knight(COLOURS pieceColour) : Piece(pieceColour, KNIGHT) {
 
-	const int knightMoves[8] = {
+	const int KNIHGT_MOVES[8] = {
 
 		-17, //moves two squares up one left
 		-15, //moves two squared up one right

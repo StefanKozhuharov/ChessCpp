@@ -47,6 +47,18 @@ void Piece::updateVisualizationCode() {
 
 }
 
+bool Piece::canAttack(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]) {
+
+	return false;
+
+}
+
+bool Piece::canMove(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]) {
+
+	return false;
+
+}
+
 void Piece::setPieceColour(COLOURS pieceColour) {
 
 	this->pieceColour = pieceColour;
@@ -67,8 +79,19 @@ bool Piece::isEmpty() const {
 
 }
 
-int* Piece::generateMoves() {
+bool Piece::isLegalMove(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]) {
 
-	return nullptr;
+	if (board[destination]->getPieceColour() == NONE) {
+
+		return canMove(currentPosition, destination, board);
+
+	}
+	else if (board[destination]->getPieceColour() != board[currentPosition]->getPieceColour()) {
+
+		return canAttack(currentPosition, destination, board);
+
+	}
+
+		return false;
 
 }

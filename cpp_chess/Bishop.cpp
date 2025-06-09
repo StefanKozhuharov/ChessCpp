@@ -3,7 +3,7 @@
 
 Bishop::Bishop(COLOURS pieceColour) : Piece(pieceColour, BISHOP) {
 
-	const int bishopMoves[4] = {
+	const int BISHOP_MOVES[4] = {
 
 		-9, //moves to the top left corner
 		-7, //moves to the top right corner
