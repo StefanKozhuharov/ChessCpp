@@ -89,16 +89,7 @@ bool King::canMove(int currentPosition, int destination, Piece* board[BOARD_SIZE
 
 	if (candidateOffset == 2  || candidateOffset == -2) {
 
-		if (!isValidCastle(currentPosition, destination, board)) {
-
-			return false;
-
-		}
-		else {
-
-			return true;
-
-		}
+		return isValidCastle(currentPosition, destination, board);
 
 	}
 
@@ -108,6 +99,35 @@ bool King::canMove(int currentPosition, int destination, Piece* board[BOARD_SIZE
 
 bool King::isValidCastle(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]) {
 
-	return true; //TODO
+	int candidateOffset = destination - currentPosition;
+
+	int rookPosition = (candidateOffset == 2 ? 1 : -2) + destination;
+	int repetitions = candidateOffset == 2 ? 3 : 4;
+
+	if (getHasMoved() || board[rookPosition]->getPieceType() != ROOK || board[rookPosition]->getHasMoved() || !isPathClear(currentPosition, candidateOffset / 2, repetitions, board) || isCheck(board, currentPosition)) {
+
+		return false;
+
+	}
+
+	delete board[currentPosition + candidateOffset / 2];
+	board[currentPosition + candidateOffset / 2] = board[currentPosition];
+	board[currentPosition] = new Piece();
+
+	if (isCheck(board, currentPosition + candidateOffset / 2)) {
+
+		delete board[currentPosition];
+		board[currentPosition] = board[currentPosition + candidateOffset / 2];
+		board[currentPosition + candidateOffset / 2] = new Piece();
+
+		return false;
+
+	}
+
+	delete board[currentPosition];
+	board[currentPosition] = board[currentPosition + candidateOffset / 2];
+	board[currentPosition + candidateOffset / 2] = new Piece();
+
+	return true;
 
 }
