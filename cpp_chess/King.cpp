@@ -29,13 +29,13 @@ bool King::isValidOffset(int currentPosition, int candidateOffset) {
 
 		if (candidateOffset == KING_MOVES[i]) {
 
-			if (!isFirstColumnException(currentPosition, candidateOffset) && !isEighthColumnException(currentPosition, candidateOffset)) {
+			if (isFirstColumnException(currentPosition, candidateOffset) || isEighthColumnException(currentPosition, candidateOffset)) {
 
-				return true;
+				return false;
 
 			}
 
-			return false;
+			return true;
 
 		}
 

@@ -1,6 +1,7 @@
 #pragma once
 
 const int BOARD_SIZE = 8;
+const int ERROR_CODE = 99;
 
 const int TOP_LEFT = -9;  // moves to the top left corner
 const int TOP = -8;  // moves one square up

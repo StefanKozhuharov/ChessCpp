@@ -85,3 +85,23 @@ bool isCheck(Piece* board[BOARD_SIZE * BOARD_SIZE], int kingPosition) {
 	return false;
 
 }
+
+bool isPathClear(int currentPosition, int candidateOffset, int repititions, Piece* board[BOARD_SIZE * BOARD_SIZE]) {
+
+	int nextSquare = currentPosition;
+
+	for (size_t i = 1; i < repititions; i++) {
+
+		nextSquare += candidateOffset;
+
+		if (!board[nextSquare]->isEmpty()) {
+
+			return false;
+
+		}
+
+	}
+
+	return true;
+
+}

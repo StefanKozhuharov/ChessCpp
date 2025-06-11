@@ -33,13 +33,13 @@ bool Knight::isValidOffset(int currentPosition, int candidateOffset) {
 
 		if (candidateOffset == KNIGHT_MOVES[i]) {
 
-			if (!isFirstColumnException(currentPosition, candidateOffset) && !isEighthColumnException(currentPosition, candidateOffset) && !isSecondColumnException(currentPosition, candidateOffset) && !isSeventhColumnException(currentPosition, candidateOffset)) {
+			if (isFirstColumnException(currentPosition, candidateOffset) || isEighthColumnException(currentPosition, candidateOffset) || isSecondColumnException(currentPosition, candidateOffset) || isSeventhColumnException(currentPosition, candidateOffset)) {
 
-				return true;
+				return false;
 
 			}
 
-			return false;
+			return true;
 
 		}
 
