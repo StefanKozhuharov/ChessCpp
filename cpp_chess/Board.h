@@ -19,7 +19,8 @@ private:
 
 public:
 
+	Board();
 	Piece** getBoard();
-	void printBoard();
+	void printBoard(COLOURS playerColour);
 
 };

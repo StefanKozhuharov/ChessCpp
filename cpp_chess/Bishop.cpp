@@ -4,7 +4,7 @@
 
 const int NUMBER_OF_MOVES = 4;
 
-Bishop::Bishop(COLOURS pieceColour) : Piece(pieceColour, BISHOP, false) {}
+Bishop::Bishop(COLOURS pieceColour) : Piece(pieceColour, BISHOP) {}
 
 bool Bishop::isValidOffset(int currentPosition, int candidateOffset) {
 

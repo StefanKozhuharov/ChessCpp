@@ -1,9 +1,9 @@
 #include "constants.h"
 #include "Piece.h"
 
-Piece::Piece() : pieceColour(NONE), pieceType(EMPTY), visualizationCode(L" "), canCastle(false) {}
+Piece::Piece() : pieceColour(NONE), pieceType(EMPTY), visualizationCode(L" "), hasMoved(false) {}
 
-Piece::Piece(COLOURS pieceColour, PIECES pieceType, bool canCastle) : pieceColour(pieceColour), pieceType(pieceType), canCastle(canCastle) {
+Piece::Piece(COLOURS pieceColour, PIECES pieceType) : pieceColour(pieceColour), pieceType(pieceType), hasMoved(false) {
 
 	updateVisualizationCode();
 
@@ -27,9 +27,9 @@ const wchar_t* Piece::getVisualizationCode() const {
 
 }
 
-bool Piece::getCanCastle() const {
+bool Piece::getHasMoved() const {
 
-	return canCastle;
+	return hasMoved;
 
 }
 
@@ -79,9 +79,9 @@ void Piece::setPieceType(PIECES pieceType) {
 
 }
 
-void Piece::setCanCastle(bool canCastle) {
+void Piece::setCanCastle(bool hasMoved) {
 
-	this->canCastle = canCastle;
+	this->hasMoved = hasMoved;
 
 }
 

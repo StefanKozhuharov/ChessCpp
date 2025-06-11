@@ -6,7 +6,7 @@ const int NUMBER_OF_MOVES = 10;
 const int TWO_LEFT = -2;
 const int TWO_RIGHT = 2;
 
-King::King(COLOURS pieceColour) : Piece(pieceColour, KING, true) {}
+King::King(COLOURS pieceColour) : Piece(pieceColour, KING) {}
 
 bool King::isValidOffset(int currentPosition, int candidateOffset) {
 

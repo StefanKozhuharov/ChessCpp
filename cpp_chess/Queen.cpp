@@ -4,7 +4,7 @@
 
 const int NUMBER_OF_MOVES = 8;
 
-Queen::Queen(COLOURS pieceColour) : Piece(pieceColour, QUEEN, false) {}
+Queen::Queen(COLOURS pieceColour) : Piece(pieceColour, QUEEN) {}
 
 bool Queen::isValidOffset(int currentPosition, int candidateOffset) {
 

@@ -12,7 +12,7 @@ const int KNIGHT_DOWN_LEFT = 15;  // moves two squares down, one left
 const int KNIGHT_DOWN_RIGHT = 17;  // moves two squares down, one right
 const int NUMBER_OF_MOVES = 8;
 
-Knight::Knight(COLOURS pieceColour) : Piece(pieceColour, KNIGHT, false) {}
+Knight::Knight(COLOURS pieceColour) : Piece(pieceColour, KNIGHT) {}
 
 bool Knight::isValidOffset(int currentPosition, int candidateOffset) {
 

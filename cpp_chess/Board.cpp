@@ -11,6 +11,15 @@
 
 using namespace std;
 
+Board::Board() {
+
+	setupBackRank(BLACK, 0);
+	setupPawns(BLACK, 1);
+	setupPawns(WHITE, 6);
+	setupBackRank(WHITE, 7);
+
+}
+
 void Board::setupPawns(COLOURS pieceColour, int row) {
 
 	for (size_t i = 0; i < BOARD_SIZE; i++) {
@@ -40,7 +49,7 @@ Piece** Board::getBoard() {
 
 }
 
-void Board::printBoard() {
+void Board::printBoard(COLOURS playerColour) {
 
 	//TODO: printing the board
 

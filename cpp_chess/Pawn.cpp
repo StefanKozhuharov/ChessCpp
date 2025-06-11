@@ -4,7 +4,7 @@
 const int TWO_TOP = 16; //moves two squares up
 const int NUMBER_OF_MOVES = 4;
 
-Pawn::Pawn(COLOURS pieceColour) : Piece(pieceColour, PAWN, false) {
+Pawn::Pawn(COLOURS pieceColour) : Piece(pieceColour, PAWN) {
 
 	const int PAWN_MOVES[NUMBER_OF_MOVES] = {
 

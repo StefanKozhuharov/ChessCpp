@@ -4,7 +4,7 @@
 
 const int NUMBER_OF_MOVES = 4;
 
-Rook::Rook(COLOURS pieceColour) : Piece(pieceColour, ROOK, true) {}
+Rook::Rook(COLOURS pieceColour) : Piece(pieceColour, ROOK) {}
 
 bool Rook::isValidOffset(int currentPosition, int candidateOffset) {
 
