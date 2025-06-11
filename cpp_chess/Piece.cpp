@@ -79,7 +79,7 @@ void Piece::setPieceType(PIECES pieceType) {
 
 }
 
-void Piece::setCanCastle(bool hasMoved) {
+void Piece::setHasMoved(bool hasMoved) {
 
 	this->hasMoved = hasMoved;
 

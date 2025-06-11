@@ -8,6 +8,7 @@ private:
 
 	Board board;
 	int getCoordinates(char coordinate[2]);
+	void executeMove();
 
 public:
 

@@ -36,7 +36,7 @@ void Game::startGame() {
 
 		}
 
-		//executeMove();
+		executeMove();
 
 		if (playerColour == WHITE) {
 
@@ -58,5 +58,11 @@ void Game::startGame() {
 int Game::getCoordinates(char coordinate[2]) {
 
 	return (coordinate[1] - 'a') + (coordinate[2] - '0') * BOARD_SIZE;
+
+}
+
+void Game::executeMove() {
+
+	//TODO
 
 }
