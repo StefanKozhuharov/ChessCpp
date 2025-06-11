@@ -36,7 +36,7 @@ void Game::startGame() {
 
 		}
 
-		executeMove();
+		executeMove(currentPosition, destination);
 
 		if (playerColour == WHITE) {
 
@@ -53,6 +53,8 @@ void Game::startGame() {
 
 	}
 
+	//TODO ending the game and saving
+
 }
 
 int Game::getCoordinates(char coordinate[2]) {
@@ -61,8 +63,11 @@ int Game::getCoordinates(char coordinate[2]) {
 
 }
 
-void Game::executeMove() {
+void Game::executeMove(int currentPosition, int destination) {
 
-	//TODO
+	delete board.getBoard()[destination];
+	board.getBoard()[destination] = board.getBoard()[currentPosition];
+	board.getBoard()[currentPosition] = new Piece();
+	board.getBoard()[destination]->setHasMoved(true);
 
 }
