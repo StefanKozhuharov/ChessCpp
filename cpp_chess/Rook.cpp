@@ -1,5 +1,4 @@
 #include "Rook.h"
-#include "constants.h"
 #include "utils.h"
 
 const int NUMBER_OF_MOVES = 4;

@@ -1,7 +1,21 @@
 #include "constants.h"
 #include "Piece.h"
+#include <iostream>
 
-Piece::Piece() : pieceColour(NONE), pieceType(EMPTY), visualizationCode(L" "), hasMoved(false), canEnPassantLeft(false), canEnPassantRight(false){}
+using namespace std;
+
+const wchar_t* PIECE_CODES[] = {
+
+	L"\u265A", //king - 0 same as the type
+	L"\u265B", //queen - 1 same as the type
+	L"\u265C", //rook - 2 same as the type
+	L"\u265D", //bishop - 3 same as the type
+	L"\u265E", //knight - 4 same as the type
+	L"\u265F" //pawn - 5 same as the type
+
+};
+
+Piece::Piece() : pieceColour(NONE), pieceType(EMPTY), visualizationCode(L" "), hasMoved(false), canEnPassantLeft(false), canEnPassantRight(false) {}
 
 Piece::Piece(COLOURS pieceColour, PIECES pieceType) : pieceColour(pieceColour), pieceType(pieceType), hasMoved(false), canEnPassantLeft(false), canEnPassantRight(false) {
 
@@ -47,19 +61,14 @@ bool Piece::getCanEnPassantRight() const {
 
 void Piece::updateVisualizationCode() {
 
-	if (pieceColour == WHITE) {
+	if (pieceColour == NONE) {
 
-		visualizationCode = WHITE_PIECES[pieceType];
-
-	}
-	else if (pieceColour == BLACK) {
-
-		visualizationCode = BLACK_PIECES[pieceType];
+		visualizationCode = L" ";
 
 	}
 	else {
 
-		visualizationCode = L" ";
+		visualizationCode = PIECE_CODES[pieceType];
 
 	}
 
@@ -111,7 +120,7 @@ void Piece::setCanEnPassantRight(bool canEnPassantRight) {
 
 bool Piece::isEmpty() const {
 
-		return pieceColour == NONE || pieceType == EMPTY;
+	return pieceColour == NONE || pieceType == EMPTY;
 
 }
 
@@ -142,6 +151,6 @@ bool Piece::isLegalMove(int currentPosition, int destination, Piece* board[BOARD
 
 	}
 
-		return false;
+	return false;
 
 }

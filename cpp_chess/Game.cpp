@@ -14,7 +14,7 @@ void Game::startGame() {
 
 	while (true) {
 		
-		wcout << (playerColour == WHITE) ? L"White's move: " : L"Black's move: ";
+		wcout << ((playerColour == WHITE) ? L"White's move: " : L"Black's move: ");
 
 		char moveFrom[2], moveTo[2];
 		cin >> moveFrom >> moveTo;
@@ -24,7 +24,7 @@ void Game::startGame() {
 
 		if (currentPosition < 0 || currentPosition >= BOARD_SIZE * BOARD_SIZE) {
 
-			wcout << L"Incorrect data. Enter a valid starting coordinate.";
+			wcout << L"Incorrect data. Enter a valid starting coordinate." << endl;
 			continue;
 
 		}
@@ -33,7 +33,7 @@ void Game::startGame() {
 
 		if (!currentPiece->isLegalMove(currentPosition, destination, board.getBoard())) {
 
-			wcout << L"Invalid move.";
+			wcout << L"Invalid move." << endl;
 			continue;
 
 		}
@@ -49,7 +49,7 @@ void Game::startGame() {
 			board.getBoard()[currentPosition] = board.getBoard()[destination];
 			board.getBoard()[destination] = destinationPiece;
 
-			wcout << L"Invalid move. Your king will be in check!";
+			wcout << L"Invalid move. Your king will be in check!" << endl;
 
 			continue;
 

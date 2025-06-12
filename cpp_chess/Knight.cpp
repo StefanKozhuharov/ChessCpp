@@ -1,5 +1,4 @@
 #include "Knight.h"
-#include "constants.h"
 #include "utils.h"
 
 const int KNIGHT_UP_LEFT = -17; // moves two squares up, one left

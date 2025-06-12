@@ -33,28 +33,6 @@ const enum PIECES {
 
 };
 
-const wchar_t* WHITE_PIECES[] = {
-
-	L"\u2654", //king - 0 same as the type
-	L"\u2655" //queen - 1 same as the type
-	L"\u2656", //rook - 2 same as the type
-	L"\u2657", //bishop - 3 same as the type
-	L"\u2658", //knight - 4 same as the type
-	L"\u2659" //pawn - 5 same as the type
-
-};
-
-const wchar_t* BLACK_PIECES[] = {
-
-	L"\u265A", //king - 0 same as the type
-	L"\u265B", //queen - 1 same as the type
-	L"\u265C", //rook - 2 same as the type
-	L"\u265D", //bishop - 3 same as the type
-	L"\u265E", //knight - 4 same as the type
-	L"\u265F" //pawn - 5 same as the type
-
-};
-
 const int WHITE_COLOUR = 15;
 const int BLACK_COLOUR = 0;
 const int LIGHT_GRAY = 7;

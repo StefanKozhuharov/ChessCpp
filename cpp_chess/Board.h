@@ -16,6 +16,7 @@ private:
 
 	void setupPawns(COLOURS pieceColour, int row); //first row is 0 second is 1 etc.
 	void setupBackRank(COLOURS pieceColour, int row);
+	void setupEmptySquares();
 
 public:
 

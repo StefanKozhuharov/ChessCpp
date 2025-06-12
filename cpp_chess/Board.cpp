@@ -15,6 +15,7 @@ Board::Board() {
 
 	setupBackRank(BLACK, 0);
 	setupPawns(BLACK, 1);
+	setupEmptySquares();
 	setupPawns(WHITE, 6);
 	setupBackRank(WHITE, 7);
 
@@ -43,6 +44,16 @@ void Board::setupBackRank(COLOURS pieceColour, int row) {
 
 }
 
+void Board::setupEmptySquares() {
+
+	for (size_t i = 16; i < 48; i++) {
+
+		board[i] = new Piece();
+
+	}
+
+}
+
 Piece** Board::getBoard() {
 
 	return board;
@@ -51,6 +62,16 @@ Piece** Board::getBoard() {
 
 void Board::printBoard(COLOURS playerColour) {
 
-	//TODO: printing the board
+	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
+
+		wcout << board[i]->getVisualizationCode() << " ";
+
+		if ((i+1) % 8 == 0) {
+
+			wcout << endl;
+
+		}
+
+	}
 
 }
