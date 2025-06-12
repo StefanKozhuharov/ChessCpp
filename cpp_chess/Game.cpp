@@ -106,7 +106,7 @@ void Game::startGame() {
 
 int Game::getCoordinates(char coordinate[2]) {
 
-	return (coordinate[1] - 'a') + (coordinate[2] - '0') * BOARD_SIZE;
+	return (coordinate[0] - 'a') + (BOARD_SIZE - (coordinate[1] - '1') - 1) * BOARD_SIZE;
 
 }
 

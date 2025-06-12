@@ -63,6 +63,8 @@ Piece** Board::getBoard() {
 
 void Board::printBoard(COLOURS playerColour) {
 
+	wcout << L"\033[2J\033[H\033[3J";
+
 	int bgColour = RED;
 
 	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
@@ -96,11 +98,14 @@ void Board::printBoard(COLOURS playerColour) {
 
 		}
 
-		setColour(board[i]->getPieceColour(), bgColour);
-		wcout << board[i]->getVisualizationCode() << " ";
+		Piece* currentPiece = playerColour == WHITE ? board[i] : board[BOARD_SIZE * BOARD_SIZE - i - 1];
+
+		setColour(currentPiece->getPieceColour(), bgColour);
+		wcout << currentPiece->getVisualizationCode() << " ";
 
 		if ((i + 1) % 8 == 0) {
 
+			resetColour();
 			wcout << endl;
 
 		}
@@ -129,6 +134,7 @@ void Board::printBoard(COLOURS playerColour) {
 
 	}
 
+	resetColour();
 	wcout << endl << endl;
 
 }
