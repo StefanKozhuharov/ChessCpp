@@ -1,4 +1,5 @@
 #include <iostream>
+#include <windows.h>
 #include "Piece.h"
 #include "constants.h"
 #include "Rook.h"
@@ -62,16 +63,86 @@ Piece** Board::getBoard() {
 
 void Board::printBoard(COLOURS playerColour) {
 
+	int bgColour = RED;
+
 	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
 
+		if ((i + i / 8) % 2 == 0) {
+
+			bgColour = DARK_GRAY;
+
+		}
+		else {
+
+			bgColour = RED;
+
+		}
+
+
+		if (i % 8 == 0) {
+
+			resetColour();
+
+			if (playerColour == BLACK) {
+
+				wcout << i / 8 + 1 << " ";
+
+			}
+			else {
+
+				wcout << (BOARD_SIZE * BOARD_SIZE - i) / 8 << " ";
+
+			}
+
+		}
+
+		setColour(board[i]->getPieceColour(), bgColour);
 		wcout << board[i]->getVisualizationCode() << " ";
 
-		if ((i+1) % 8 == 0) {
+		if ((i + 1) % 8 == 0) {
 
 			wcout << endl;
 
 		}
 
 	}
+
+	resetColour();
+	wcout << "  ";
+
+	for (size_t i = 0; i < BOARD_SIZE; i++) {
+
+		char character;
+
+		if (playerColour == BLACK) {
+
+			character = 'h' - i;
+
+		}
+		else {
+
+			character = 'a' + i;
+
+		}
+
+		wcout << character << " ";
+
+	}
+
+	wcout << endl << endl;
+
+}
+
+void Board::setColour(int textColour, int bgColour) {
+
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, textColour + (bgColour << 4));
+
+}
+
+void Board::resetColour() {
+
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, WHITE + (BLACK << 4));
 
 }

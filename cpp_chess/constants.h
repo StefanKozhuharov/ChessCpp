@@ -15,9 +15,9 @@ const int TWO_TOP = -16; //moves two squares up
 
 const enum COLOURS {
 
-	NONE = -1,
+	NONE = 7,
 	BLACK = 0,
-	WHITE = 1
+	WHITE = 15
 
 };
 
@@ -33,7 +33,5 @@ const enum PIECES {
 
 };
 
-const int WHITE_COLOUR = 15;
-const int BLACK_COLOUR = 0;
-const int LIGHT_GRAY = 7;
+const int DARK_GRAY = 8;
 const int RED = 4;
