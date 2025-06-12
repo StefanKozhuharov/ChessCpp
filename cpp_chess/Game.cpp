@@ -20,6 +20,7 @@ void Game::startGame() {
 		cin >> moveFrom >> moveTo;
 
 		int currentPosition = getCoordinates(moveFrom), destination = getCoordinates(moveTo);
+		int candidateOffset = destination - currentPosition;
 
 		if (currentPosition < 0 || currentPosition >= BOARD_SIZE * BOARD_SIZE) {
 
@@ -57,6 +58,30 @@ void Game::startGame() {
 		delete board.getBoard()[currentPosition];
 		board.getBoard()[currentPosition] = board.getBoard()[destination];
 		board.getBoard()[destination] = destinationPiece;
+
+		for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
+
+			board.getBoard()[i]->setCanEnPassantLeft(false);
+			board.getBoard()[i]->setCanEnPassantRight(false);
+
+		}
+
+		if (currentPiece->getPieceType() == PAWN && candidateOffset % TWO_TOP == 0) {
+
+			if (playerColour == WHITE) {
+
+				board.getBoard()[destination + 1]->setCanEnPassantRight(true);
+				board.getBoard()[destination - 1]->setCanEnPassantLeft(true);
+
+			}
+			else {
+
+				board.getBoard()[destination - 1]->setCanEnPassantRight(true);
+				board.getBoard()[destination + 1]->setCanEnPassantLeft(true); //NEEDS TO BE TESTED!!!!
+
+			}
+
+		}
 
 		executeMove(currentPosition, destination);
 

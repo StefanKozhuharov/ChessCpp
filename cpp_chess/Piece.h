@@ -8,6 +8,8 @@ private:
 	COLOURS pieceColour; //stores the colour of the piece (black/white)
 	PIECES pieceType; //stores the type of the piece (pawn, king, knight etc.)
 	bool hasMoved;
+	bool canEnPassantLeft;
+	bool canEnPassantRight;
 	const wchar_t* visualizationCode; //stores the code behind the visualization for the piece in the console
 	void updateVisualizationCode(); //sets the square to the appropriate piece or leaves it empty
 
@@ -20,11 +22,15 @@ public:
 	COLOURS getPieceColour() const;
 	PIECES getPieceType() const;
 	bool getHasMoved() const;
+	bool getCanEnPassantLeft() const;
+	bool getCanEnPassantRight() const;
 	const wchar_t* getVisualizationCode() const;
 
 	void setPieceColour(COLOURS pieceColour);
 	void setPieceType(PIECES pieceType);
 	void setHasMoved(bool hasMoved);
+	void setCanEnPassantLeft(bool canEnPassantLeft);
+	void setCanEnPassantRight(bool canEnPassantRight);
 
 	bool isEmpty() const;
 

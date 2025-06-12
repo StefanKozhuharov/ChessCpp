@@ -1,9 +1,9 @@
 #include "constants.h"
 #include "Piece.h"
 
-Piece::Piece() : pieceColour(NONE), pieceType(EMPTY), visualizationCode(L" "), hasMoved(false) {}
+Piece::Piece() : pieceColour(NONE), pieceType(EMPTY), visualizationCode(L" "), hasMoved(false), canEnPassantLeft(false), canEnPassantRight(false){}
 
-Piece::Piece(COLOURS pieceColour, PIECES pieceType) : pieceColour(pieceColour), pieceType(pieceType), hasMoved(false) {
+Piece::Piece(COLOURS pieceColour, PIECES pieceType) : pieceColour(pieceColour), pieceType(pieceType), hasMoved(false), canEnPassantLeft(false), canEnPassantRight(false) {
 
 	updateVisualizationCode();
 
@@ -30,6 +30,18 @@ const wchar_t* Piece::getVisualizationCode() const {
 bool Piece::getHasMoved() const {
 
 	return hasMoved;
+
+}
+
+bool Piece::getCanEnPassantLeft() const {
+
+	return canEnPassantLeft;
+
+}
+
+bool Piece::getCanEnPassantRight() const {
+
+	return canEnPassantRight;
 
 }
 
@@ -82,6 +94,18 @@ void Piece::setPieceType(PIECES pieceType) {
 void Piece::setHasMoved(bool hasMoved) {
 
 	this->hasMoved = hasMoved;
+
+}
+
+void Piece::setCanEnPassantLeft(bool canEnPassantLeft) {
+
+	this->canEnPassantLeft = canEnPassantLeft;
+
+}
+
+void Piece::setCanEnPassantRight(bool canEnPassantRight) {
+
+	this->canEnPassantRight = canEnPassantRight;
 
 }
 
