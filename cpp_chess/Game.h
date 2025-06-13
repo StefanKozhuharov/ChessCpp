@@ -10,6 +10,8 @@ private:
 	int getCoordinates(char coordinate[2]);
 	void executeMove(int currentPosition, int destination);
 	void setEnPassant();
+	void saveGame(COLOURS playerColour);
+	void loadGame(COLOURS& playerColour);
 
 public:
 

@@ -15,6 +15,8 @@ const int TWO_TOP = -16; //moves two squares up
 const int TWO_LEFT = -2; //moves two squares left
 const int TWO_RIGHT = 2; //moves two squares right
 
+const char fileName[] = "save.bin";
+
 const enum COLOURS {
 
 	NONE = 7,

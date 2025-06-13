@@ -2,6 +2,8 @@
 #include "Board.h"
 #include "Game.h"
 #include <iostream>
+#include <fstream>
+#include <cstring>
 #include "utils.h"
 
 using namespace std;
@@ -9,6 +11,7 @@ using namespace std;
 void Game::startGame() {
 
 	COLOURS playerColour = WHITE;
+	bool canLoad = true;
 
 	board.printBoard(playerColour);
 
@@ -16,8 +19,36 @@ void Game::startGame() {
 		
 		wcout << ((playerColour == WHITE) ? L"White's move: " : L"Black's move: ");
 
-		char moveFrom[2], moveTo[2];
-		cin >> moveFrom >> moveTo;
+		char option[255], moveFrom[255], moveTo[255];
+		cin >> option;
+
+		if (!strcmp(option, "save")) {
+
+			saveGame(playerColour);
+			return;
+			
+		}
+
+		if (!strcmp(option, "load") && canLoad) {
+
+			canLoad = false;
+			loadGame(playerColour);
+			board.printBoard(playerColour);
+			continue;
+
+		}
+		
+		if (!strcmp(option, "load") && !canLoad) {
+
+			wcout << "Can not load" << endl;
+			continue;
+
+		}
+
+		moveFrom[0] = option[0];
+		moveFrom[1] = option[1];
+
+		cin >> moveTo;
 
 		int currentPosition = getCoordinates(moveFrom), destination = getCoordinates(moveTo);
 		int candidateOffset = destination - currentPosition;
@@ -165,9 +196,9 @@ void Game::startGame() {
 
 		board.printBoard(playerColour);
 
-	}
+		canLoad = false;
 
-	//TODO ending the game and saving
+	}
 
 }
 
@@ -194,5 +225,115 @@ void Game::setEnPassant() {
 		board.getBoard()[i]->setCanEnPassantRight(false);
 
 	}
+
+}
+
+void Game::saveGame(COLOURS playerColour) {
+
+	ofstream outFile(fileName, ios::binary);
+
+	if (!outFile) {
+
+		throw runtime_error("Could not open save file.");
+
+	}
+
+	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
+
+			Piece* piece = board.getBoard()[i];
+			PIECES pieceType = piece->getPieceType();
+			COLOURS pieceColour = piece->getPieceColour();
+			bool hasMoved = piece->getHasMoved();
+			bool canEnPassantLeft = piece->getCanEnPassantLeft();
+			bool canEnPassantRight = piece->getCanEnPassantRight();
+
+			outFile.write(reinterpret_cast<const char*>(&pieceType), sizeof(int));
+			outFile.write(reinterpret_cast<const char*>(&pieceColour), sizeof(int));
+			outFile.write(reinterpret_cast<const char*>(&hasMoved), sizeof(bool));
+			outFile.write(reinterpret_cast<const char*>(&canEnPassantLeft), sizeof(bool));
+			outFile.write(reinterpret_cast<const char*>(&canEnPassantRight), sizeof(bool));
+
+	}
+
+	outFile.write(reinterpret_cast<const char*>(&playerColour), sizeof(int));
+
+	outFile.close();
+
+}
+
+void Game::loadGame(COLOURS& playerColour) {
+
+	ifstream inFile(fileName, ios::binary);
+
+	if (!inFile) {
+
+		throw runtime_error("Could not open save file.");
+
+	}
+
+	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
+
+		PIECES pieceType;
+		COLOURS pieceColour;
+		bool hasMoved;
+		bool canEnPassantLeft;
+		bool canEnPassantRight;
+
+		inFile.read(reinterpret_cast<char*>(&pieceType), sizeof(int));
+		inFile.read(reinterpret_cast<char*>(&pieceColour), sizeof(int));
+		inFile.read(reinterpret_cast<char*>(&hasMoved), sizeof(bool));
+		inFile.read(reinterpret_cast<char*>(&canEnPassantLeft), sizeof(bool));
+		inFile.read(reinterpret_cast<char*>(&canEnPassantRight), sizeof(bool));
+
+		delete board.getBoard()[i];
+
+		switch (pieceType) {
+
+		case EMPTY:
+
+			board.getBoard()[i] = new Piece();
+			break;
+
+		case KING:
+
+			board.getBoard()[i] = new King(pieceColour);
+			break;
+
+		case QUEEN:
+
+			board.getBoard()[i] = new Queen(pieceColour);
+			break;
+
+		case ROOK:
+
+			board.getBoard()[i] = new Rook(pieceColour);
+			break;
+
+		case BISHOP:
+
+			board.getBoard()[i] = new Bishop(pieceColour);
+			break;
+
+		case KNIGHT:
+
+			board.getBoard()[i] = new Knight(pieceColour);
+			break;
+
+		case PAWN:
+
+			board.getBoard()[i] = new Pawn(pieceColour);
+			break;
+
+		}
+
+		board.getBoard()[i]->setHasMoved(hasMoved);
+		board.getBoard()[i]->setCanEnPassantLeft(canEnPassantLeft);
+		board.getBoard()[i]->setCanEnPassantRight(canEnPassantRight);
+
+	}
+
+	inFile.read(reinterpret_cast<char*>(&playerColour), sizeof(int));
+
+	inFile.close();
 
 }
