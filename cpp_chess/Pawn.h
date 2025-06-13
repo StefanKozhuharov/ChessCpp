@@ -3,6 +3,11 @@
 
 class Pawn : public Piece {
 
+private:
+
+	bool isFirstColumnException(int currentPosition, int candidateOffset);
+	bool isEighthColumnException(int currentPosition, int candidateOffset);
+
 public:
 
 	Pawn(COLOURS pieceColour);

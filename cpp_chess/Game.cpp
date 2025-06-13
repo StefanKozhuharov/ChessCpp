@@ -14,6 +14,7 @@ void Game::startGame() {
 	bool canLoad = true;
 
 	board.printBoard(playerColour);
+	saveBoardState();
 
 	while (true) {
 
@@ -27,6 +28,7 @@ void Game::startGame() {
 		if (isDraw(playerColour)) {
 
 			wcout << "It's a draw!";
+			return;
 
 		}
 		
@@ -82,26 +84,12 @@ void Game::startGame() {
 
 		}
 
-		Piece* destinationPiece = board.getBoard()[destination];
+		if (!isKingSafe(playerColour, currentPosition, destination)) {
 
-		board.getBoard()[destination] = board.getBoard()[currentPosition];
-		board.getBoard()[currentPosition] = new Piece();
-
-		if (isCheck(board.getBoard(), getKingPosition(playerColour, board.getBoard()))) {
-
-			delete board.getBoard()[currentPosition];
-			board.getBoard()[currentPosition] = board.getBoard()[destination];
-			board.getBoard()[destination] = destinationPiece;
-
-			wcout << L"Invalid move. Your king will be in check!" << endl;
-
+			wcout << "Invalid move. Your king will be in check!" << endl;
 			continue;
 
 		}
-
-		delete board.getBoard()[currentPosition];
-		board.getBoard()[currentPosition] = board.getBoard()[destination];
-		board.getBoard()[destination] = destinationPiece;
 
 		setEnPassant();
 
@@ -148,6 +136,12 @@ void Game::startGame() {
 				board.getBoard()[r + 7] = new Piece();
 
 			}
+
+		}
+
+		if (currentPiece->getPieceType() == PAWN || !board.getBoard()[destination]->isEmpty()) {
+
+			currentSavedBoardState = 0;
 
 		}
 
@@ -210,6 +204,7 @@ void Game::startGame() {
 		board.printBoard(playerColour);
 
 		canLoad = false;
+		saveBoardState();
 
 	}
 
@@ -371,6 +366,26 @@ bool Game::isWin(COLOURS playerColour) {
 
 bool Game::isDraw(COLOURS playerColour) {
 
+	int sum = 0;
+
+	for (size_t i = 0; i < currentSavedBoardState; i++) {
+
+		if (numberOfRepetitionsOfBoardState[i] >= 3) {
+
+			return true;
+
+		}
+
+		sum += numberOfRepetitionsOfBoardState[i];
+
+	}
+
+	if (sum >= 50) {
+
+		return true;
+
+	}
+
 	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
 
 		Piece* currentPiece = board.getBoard()[i];
@@ -391,7 +406,7 @@ bool Game::hasLegalMoves(Piece* piece, int currentPosition) {
 
 	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
 
-		if (piece->isLegalMove(currentPosition, i, board.getBoard())) {
+		if (piece->isLegalMove(currentPosition, i, board.getBoard()) && isKingSafe(piece->getPieceColour(), currentPosition, i)) {
 
 			return true;
 
@@ -400,5 +415,60 @@ bool Game::hasLegalMoves(Piece* piece, int currentPosition) {
 	}
 
 	return false;
+
+}
+
+void Game::saveBoardState() {
+
+	char boardState[BOARD_SIZE * BOARD_SIZE + 1];
+
+	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
+
+			Piece* piece = board.getBoard()[i];
+			char symbol = piece->getPieceType() + 1;
+			boardState[i] = piece->getPieceColour() == WHITE ? symbol : symbol + BOARD_SIZE;
+
+	}
+
+	boardState[BOARD_SIZE * BOARD_SIZE] = '\0';
+
+	for (size_t i = 0; i < currentSavedBoardState; i++) {
+
+		if (!strcmp(boardState, previousBoards[i])) {
+
+			numberOfRepetitionsOfBoardState[i]++;
+			return;
+
+		}
+
+	}
+
+	strcpy_s(previousBoards[currentSavedBoardState], BOARD_SIZE * BOARD_SIZE + 1, boardState);
+	numberOfRepetitionsOfBoardState[currentSavedBoardState] = 1;
+	currentSavedBoardState++;
+
+}
+
+bool Game::isKingSafe(COLOURS playerColour, int currentPosition, int destination) {
+
+	Piece* destinationPiece = board.getBoard()[destination];
+	board.getBoard()[destination] = board.getBoard()[currentPosition];
+	board.getBoard()[currentPosition] = new Piece();
+
+	if (isCheck(board.getBoard(), getKingPosition(playerColour, board.getBoard()))) {
+
+		delete board.getBoard()[currentPosition];
+		board.getBoard()[currentPosition] = board.getBoard()[destination];
+		board.getBoard()[destination] = destinationPiece;
+
+		return false;
+
+	}
+
+	delete board.getBoard()[currentPosition];
+	board.getBoard()[currentPosition] = board.getBoard()[destination];
+	board.getBoard()[destination] = destinationPiece;
+
+	return true;
 
 }

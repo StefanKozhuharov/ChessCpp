@@ -18,11 +18,35 @@ bool Pawn::isValidOffset(int currentPosition, int candidateOffset) {
 
 	for (size_t i = 0; i < NUMBER_OF_MOVES; i++) {
 
-		if ((candidateOffset == PAWN_MOVES[i] && getPieceColour() == WHITE) || (candidateOffset * -1 == PAWN_MOVES[i] && getPieceColour() == BLACK)) {
+		if ((candidateOffset == PAWN_MOVES[i] && getPieceColour() == WHITE || (candidateOffset * -1 == PAWN_MOVES[i] && getPieceColour() == BLACK)) && !isFirstColumnException(currentPosition, candidateOffset) && !isEighthColumnException(currentPosition, candidateOffset)) {
 
 			return true;
 
 		}
+
+	}
+
+	return false;
+
+}
+
+bool Pawn::isFirstColumnException(int currentPosition, int candidateOffset) {
+
+	if (isFirstColumn(currentPosition) && (candidateOffset == TOP_LEFT || candidateOffset == BOTTOM_LEFT)) {
+
+		return true;
+
+	}
+
+	return false;
+
+}
+
+bool Pawn::isEighthColumnException(int currentPosition, int candidateOffset) {
+
+	if (isEighthColumn(currentPosition) && (candidateOffset == TOP_RIGHT || candidateOffset == BOTTOM_RIGHT)) {
+
+		return true;
 
 	}
 
