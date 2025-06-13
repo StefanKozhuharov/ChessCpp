@@ -109,6 +109,49 @@ void Game::startGame() {
 
 		executeMove(currentPosition, destination);
 
+		int promotionRank = playerColour == WHITE ? 0 : 7;
+
+		while (board.getBoard()[destination]->getPieceType() == PAWN && destination / 8 == promotionRank) {
+
+			wcout << "What would you like your pawn to turn into? (k - knight, r - rook, b - bishop, q - queen): ";
+			char promotionPiece;
+			cin >> promotionPiece;
+
+			switch (promotionPiece) {
+
+			case 'k':
+
+				delete board.getBoard()[destination];
+				board.getBoard()[destination] = new Knight(playerColour);
+				break;
+
+			case 'r':
+
+				delete board.getBoard()[destination];
+				board.getBoard()[destination] = new Rook(playerColour);
+				break;
+
+			case 'b':
+
+				delete board.getBoard()[destination];
+				board.getBoard()[destination] = new Bishop(playerColour);
+				break;
+
+			case 'q':
+
+				delete board.getBoard()[destination];
+				board.getBoard()[destination] = new Queen(playerColour);
+				break;
+
+			default:
+
+				wcout << "Invalid piece." << endl;
+				break;
+
+			}
+
+		}
+
 		if (playerColour == WHITE) {
 
 			playerColour = BLACK;

@@ -1,6 +1,9 @@
 #include "constants.h"
 #include "Piece.h"
 #include "utils.h"
+#include <iostream>
+
+using namespace std;
 
 bool isFirstColumn(int currentPosition) {
 
@@ -96,6 +99,7 @@ bool isPathClear(int currentPosition, int candidateOffset, int repititions, Piec
 
 		if (!board[nextSquare]->isEmpty()) {
 
+			wcout << "Invalid move. The path to your destination is not clear." << endl; //will be removed later
 			return false;
 
 		}

@@ -136,16 +136,29 @@ bool Piece::isLegalMove(int currentPosition, int destination, Piece* board[BOARD
 
 	if (destination < 0 || destination >= BOARD_SIZE * BOARD_SIZE || !isValidOffset(currentPosition, candidateOffset) || isEmpty()) {
 
+		wcout << "Invalid move. The piece you have selected can not execute this move" << endl; //will be removed later
 		return false;
 
 	}
 
 	if (board[destination]->getPieceColour() == NONE) {
 
+		if (!canMove(currentPosition, destination, board)) {
+
+			wcout << "Invalid move. Your piece can not move there." << endl; //will be removed later
+
+		}
+
 		return canMove(currentPosition, destination, board);
 
 	}
 	else if (board[destination]->getPieceColour() != board[currentPosition]->getPieceColour()) {
+
+		if (!canAttack(currentPosition, destination, board)) {
+
+			wcout << "Invalid move. Your piece can not attack there." << endl; //will be removed later
+
+		}
 
 		return canAttack(currentPosition, destination, board);
 
