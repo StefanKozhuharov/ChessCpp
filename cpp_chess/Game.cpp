@@ -83,6 +83,14 @@ void Game::startGame() {
 
 		}
 
+		if (currentPiece->getPieceType() == PAWN && candidateOffset % TOP_LEFT == 0 || candidateOffset % TOP_RIGHT == 0 && board.getBoard()[destination]->isEmpty()) {
+
+			int r = (currentPosition / 8) * 8, c = destination % 8;
+			delete board.getBoard()[r + c];
+			board.getBoard()[r + c] = new Piece();
+
+		}
+
 		executeMove(currentPosition, destination);
 
 		if (playerColour == WHITE) {

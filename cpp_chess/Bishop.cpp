@@ -58,7 +58,7 @@ bool Bishop::canAttack(int currentPosition, int destination, Piece* board[BOARD_
 	int candidateOffset = destination - currentPosition;
 	int offset = getOffset(currentPosition, candidateOffset);
 
-	return isPathClear(currentPosition, candidateOffset, candidateOffset / offset, board);
+	return isPathClear(currentPosition, offset, candidateOffset / offset, board);
 
 
 }
@@ -68,7 +68,7 @@ bool Bishop::canMove(int currentPosition, int destination, Piece* board[BOARD_SI
 	int candidateOffset = destination - currentPosition;
 	int offset = getOffset(currentPosition, candidateOffset);
 
-	return isPathClear(currentPosition, candidateOffset, candidateOffset / offset, board);
+	return isPathClear(currentPosition, offset, candidateOffset / offset, board);
 
 }
 

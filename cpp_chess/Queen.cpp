@@ -58,7 +58,7 @@ bool Queen::canAttack(int currentPosition, int destination, Piece* board[BOARD_S
 	int candidateOffset = destination - currentPosition;
 	int offset = getOffset(currentPosition, candidateOffset);
 
-	return isPathClear(currentPosition, candidateOffset, candidateOffset / offset, board);
+	return isPathClear(currentPosition, offset, candidateOffset / offset, board);
 
 }
 
@@ -67,7 +67,7 @@ bool Queen::canMove(int currentPosition, int destination, Piece* board[BOARD_SIZ
 	int candidateOffset = destination - currentPosition;
 	int offset = getOffset(currentPosition, candidateOffset);
 
-	return isPathClear(currentPosition, candidateOffset, candidateOffset / offset, board);
+	return isPathClear(currentPosition, offset, candidateOffset / offset, board);
 
 }
 
