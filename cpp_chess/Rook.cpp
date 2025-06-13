@@ -84,7 +84,7 @@ int Rook::getOffset(int currentPosition, int candidateOffset) {
 
 	for (size_t i = 0; i < NUMBER_OF_MOVES; i++) {
 
-		if (candidateOffset % ROOK_MOVES[i] == 0 && candidateOffset / ROOK_MOVES[i] > 0) {
+		if (candidateOffset % ROOK_MOVES[i] == 0 && candidateOffset / ROOK_MOVES[i] > 0 && candidateOffset / ROOK_MOVES[i] < 8) {
 
 			return ROOK_MOVES[i];
 

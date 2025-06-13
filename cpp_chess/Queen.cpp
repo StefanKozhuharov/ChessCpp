@@ -88,7 +88,7 @@ int Queen::getOffset(int currentPosition, int candidateOffset) {
 
 	for (size_t i = 0; i < NUMBER_OF_MOVES; i++) {
 
-		if (candidateOffset % QUEEN_MOVES[i] == 0 && candidateOffset / QUEEN_MOVES[i] > 0) {
+		if (candidateOffset % QUEEN_MOVES[i] == 0 && candidateOffset / QUEEN_MOVES[i] > 0 && candidateOffset / QUEEN_MOVES[i] < 8) {
 
 			return QUEEN_MOVES[i];
 

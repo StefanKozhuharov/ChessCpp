@@ -12,6 +12,8 @@ const int BOTTOM_LEFT = 7;  // moves to the bottom left corner
 const int BOTTOM = 8;  // moves one square down
 const int BOTTOM_RIGHT = 9;  // moves to the bottom right corner
 const int TWO_TOP = -16; //moves two squares up
+const int TWO_LEFT = -2; //moves two squares left
+const int TWO_RIGHT = 2; //moves two squares right
 
 const enum COLOURS {
 

@@ -9,6 +9,7 @@ private:
 	Board board;
 	int getCoordinates(char coordinate[2]);
 	void executeMove(int currentPosition, int destination);
+	void setEnPassant();
 
 public:
 

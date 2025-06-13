@@ -59,12 +59,7 @@ void Game::startGame() {
 		board.getBoard()[currentPosition] = board.getBoard()[destination];
 		board.getBoard()[destination] = destinationPiece;
 
-		for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
-
-			board.getBoard()[i]->setCanEnPassantLeft(false);
-			board.getBoard()[i]->setCanEnPassantRight(false);
-
-		}
+		setEnPassant();
 
 		if (currentPiece->getPieceType() == PAWN && candidateOffset % TWO_TOP == 0) {
 
@@ -77,17 +72,38 @@ void Game::startGame() {
 			else {
 
 				board.getBoard()[destination - 1]->setCanEnPassantRight(true);
-				board.getBoard()[destination + 1]->setCanEnPassantLeft(true); //NEEDS TO BE TESTED!!!!
+				board.getBoard()[destination + 1]->setCanEnPassantLeft(true);
 
 			}
 
 		}
 
-		if (currentPiece->getPieceType() == PAWN && candidateOffset % TOP_LEFT == 0 || candidateOffset % TOP_RIGHT == 0 && board.getBoard()[destination]->isEmpty()) {
+		int r = (currentPosition / 8) * 8, c = destination % 8;
 
-			int r = (currentPosition / 8) * 8, c = destination % 8;
+		if (currentPiece->getPieceType() == PAWN && (candidateOffset % TOP_LEFT == 0 || candidateOffset % TOP_RIGHT == 0) && board.getBoard()[destination]->isEmpty()) {
+
 			delete board.getBoard()[r + c];
 			board.getBoard()[r + c] = new Piece();
+
+		}
+
+		if (currentPiece->getPieceType() == KING && candidateOffset % TWO_LEFT == 0) {
+
+			if (candidateOffset == TWO_LEFT) {
+
+				delete board.getBoard()[r + 3];
+				board.getBoard()[r + 3] = board.getBoard()[r];
+				board.getBoard()[r] = new Piece();
+
+			}
+
+			if (candidateOffset == TWO_RIGHT) {
+
+				delete board.getBoard()[r + 5];
+				board.getBoard()[r + 5] = board.getBoard()[r + 7];
+				board.getBoard()[r + 7] = new Piece();
+
+			}
 
 		}
 
@@ -124,5 +140,16 @@ void Game::executeMove(int currentPosition, int destination) {
 	board.getBoard()[destination] = board.getBoard()[currentPosition];
 	board.getBoard()[currentPosition] = new Piece();
 	board.getBoard()[destination]->setHasMoved(true);
+
+}
+
+void Game::setEnPassant() {
+
+	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
+
+		board.getBoard()[i]->setCanEnPassantLeft(false);
+		board.getBoard()[i]->setCanEnPassantRight(false);
+
+	}
 
 }
