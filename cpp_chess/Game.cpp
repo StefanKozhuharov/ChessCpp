@@ -16,6 +16,19 @@ void Game::startGame() {
 	board.printBoard(playerColour);
 
 	while (true) {
+
+		if (isWin(playerColour)) {
+
+			wcout << ((playerColour == WHITE) ? L"Black has won! " : L"White has won! ");
+			return;
+
+		}
+
+		if (isDraw(playerColour)) {
+
+			wcout << "It's a draw!";
+
+		}
 		
 		wcout << ((playerColour == WHITE) ? L"White's move: " : L"Black's move: ");
 
@@ -335,5 +348,57 @@ void Game::loadGame(COLOURS& playerColour) {
 	inFile.read(reinterpret_cast<char*>(&playerColour), sizeof(int));
 
 	inFile.close();
+
+}
+
+bool Game::isWin(COLOURS playerColour) {
+
+	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
+
+		Piece* currentPiece = board.getBoard()[i];
+
+		if (currentPiece->getPieceColour() == playerColour && hasLegalMoves(currentPiece, i)) {
+
+			return false;
+
+		}
+
+	}
+
+	return isCheck(board.getBoard(), getKingPosition(playerColour, board.getBoard()));
+
+}
+
+bool Game::isDraw(COLOURS playerColour) {
+
+	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
+
+		Piece* currentPiece = board.getBoard()[i];
+
+		if (currentPiece->getPieceColour() == playerColour && hasLegalMoves(currentPiece, i)) {
+
+			return false;
+
+		}
+
+	}
+
+	return !isCheck(board.getBoard(), getKingPosition(playerColour, board.getBoard()));
+
+}
+
+bool Game::hasLegalMoves(Piece* piece, int currentPosition) {
+
+	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
+
+		if (piece->isLegalMove(currentPosition, i, board.getBoard())) {
+
+			return true;
+
+		}
+
+	}
+
+	return false;
 
 }

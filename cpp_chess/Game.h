@@ -12,6 +12,9 @@ private:
 	void setEnPassant();
 	void saveGame(COLOURS playerColour);
 	void loadGame(COLOURS& playerColour);
+	bool isDraw(COLOURS playerColour);
+	bool isWin(COLOURS playerColour);
+	bool hasLegalMoves(Piece* piece, int currentPosition);
 
 public:
 
