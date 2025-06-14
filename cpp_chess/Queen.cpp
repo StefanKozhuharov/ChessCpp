@@ -11,16 +11,6 @@ bool Queen::isValidOffset(int currentPosition, int candidateOffset) {
 
 	if (offset != ERROR_CODE) {
 
-		for (size_t j = 0; j < candidateOffset / offset; j++) {
-
-			if (isFirstColumnException(currentPosition + offset * j, offset) || isEighthColumnException(currentPosition + offset * j, offset)) {
-
-				return false;
-
-			}
-
-		}
-
 		return true;
 
 	}
@@ -88,9 +78,26 @@ int Queen::getOffset(int currentPosition, int candidateOffset) {
 
 	for (size_t i = 0; i < NUMBER_OF_MOVES; i++) {
 
-		if (candidateOffset % QUEEN_MOVES[i] == 0 && candidateOffset / QUEEN_MOVES[i] > 0 && candidateOffset / QUEEN_MOVES[i] < 8) {
+		if (candidateOffset % QUEEN_MOVES[i] == 0 && candidateOffset / QUEEN_MOVES[i] > 0) {
 
-			return QUEEN_MOVES[i];
+			bool isException = false;
+
+			for (size_t j = 0; j < candidateOffset / QUEEN_MOVES[i]; j++) {
+
+				if (isFirstColumnException(currentPosition + QUEEN_MOVES[i] * j, QUEEN_MOVES[i]) || isEighthColumnException(currentPosition + QUEEN_MOVES[i] * j, QUEEN_MOVES[i])) {
+
+					isException = true;
+					break;
+
+				}
+
+			}
+
+			if (!isException) {
+
+				return QUEEN_MOVES[i];
+
+			}
 
 		}
 

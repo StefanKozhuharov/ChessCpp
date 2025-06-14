@@ -212,7 +212,13 @@ void Game::startGame() {
 
 int Game::getCoordinates(char coordinate[2]) {
 
-	return (coordinate[0] - 'a') + (BOARD_SIZE - (coordinate[1] - '1') - 1) * BOARD_SIZE;
+	if (coordinate[0] >= 'a' && coordinate[0] <= 'h' && coordinate[1] >= '1' && coordinate[1] <= '8') {
+
+		return (coordinate[0] - 'a') + (BOARD_SIZE - (coordinate[1] - '1') - 1) * BOARD_SIZE;
+
+	}
+
+	return -1;
 
 }
 
