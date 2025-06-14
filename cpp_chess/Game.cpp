@@ -10,22 +10,22 @@ using namespace std;
 
 void Game::startGame() {
 
-	COLOURS playerColour = WHITE;
-	bool canLoad = true;
+	COLOURS playerColour = WHITE; //sets the player turn to white at the start of the game
+	bool canLoad = true; //gives the ability to load a previous game at the start of a new game
 
-	board.printBoard(playerColour);
-	saveBoardState();
+	board.printBoard(playerColour); //prints the board
+	saveBoardState(); //saves the starting board state
 
 	while (true) {
 
-		if (isWin(playerColour)) {
+		if (isWin(playerColour)) { //checks if the player whose turn it is is in mate
 
 			wcout << ((playerColour == WHITE) ? L"Black has won! " : L"White has won! ");
 			return;
 
 		}
 
-		if (isDraw(playerColour)) {
+		if (isDraw(playerColour)) { //checks if the player whose turn it is is not in mate but has no legal moves
 
 			wcout << "It's a draw!";
 			return;
@@ -35,25 +35,25 @@ void Game::startGame() {
 		wcout << ((playerColour == WHITE) ? L"White's move: " : L"Black's move: ");
 
 		char option[255], moveFrom[255], moveTo[255];
-		cin >> option;
+		cin >> option; //gives the player the option to choose to save their game, load a previous game or make a move
 
 		if (!strcmp(option, "save")) {
 
-			saveGame(playerColour);
+			saveGame(playerColour); //saves the game
 			return;
 			
 		}
 
 		if (!strcmp(option, "load") && canLoad) {
 
-			canLoad = false;
-			loadGame(playerColour);
-			board.printBoard(playerColour);
+			canLoad = false; //prevents future loading after doing it once
+			loadGame(playerColour); //loads the game
+			board.printBoard(playerColour); //prints the new board taken from the saved game
 			continue;
 
 		}
 		
-		if (!strcmp(option, "load") && !canLoad) {
+		if (!strcmp(option, "load") && !canLoad) { //prevents loading more than once or after a move has already been made
 
 			wcout << "Can not load" << endl;
 			continue;
@@ -68,7 +68,7 @@ void Game::startGame() {
 		int currentPosition = getCoordinates(moveFrom), destination = getCoordinates(moveTo);
 		int candidateOffset = destination - currentPosition;
 
-		if (currentPosition < 0 || currentPosition >= BOARD_SIZE * BOARD_SIZE) {
+		if (currentPosition < 0 || currentPosition >= BOARD_SIZE * BOARD_SIZE) { //checks if the player has entered coordinates that are valid
 
 			wcout << L"Incorrect data. Enter a valid starting coordinate." << endl;
 			continue;
@@ -77,23 +77,23 @@ void Game::startGame() {
 
 		Piece* currentPiece = board.getBoard()[currentPosition];
 
-		if (!currentPiece->isLegalMove(currentPosition, destination, board.getBoard())) {
+		if (!currentPiece->isLegalMove(currentPosition, destination, board.getBoard())) { //checks if the wanted move is legal
 
 			wcout << L"Invalid move." << endl;
 			continue;
 
 		}
 
-		if (!isKingSafe(playerColour, currentPosition, destination)) {
+		if (!isKingSafe(playerColour, currentPosition, destination)) { //prevents a move that will leave the king in danger
 
 			wcout << "Invalid move. Your king will be in check!" << endl;
 			continue;
 
 		}
 
-		setEnPassant();
+		setEnPassant(); //resets the possibility of every piece's ability to en passant to false
 
-		if (currentPiece->getPieceType() == PAWN && candidateOffset % TWO_TOP == 0) {
+		if (currentPiece->getPieceType() == PAWN && candidateOffset % TWO_TOP == 0) { //checks if a pawn has moved in a way that enables en passant
 
 			if (playerColour == WHITE) {
 
@@ -112,14 +112,16 @@ void Game::startGame() {
 
 		int r = (currentPosition / 8) * 8, c = destination % 8;
 
-		if (currentPiece->getPieceType() == PAWN && (candidateOffset % TOP_LEFT == 0 || candidateOffset % TOP_RIGHT == 0) && board.getBoard()[destination]->isEmpty()) {
+		//deletes the pawn where en passant was executed
+
+		if (currentPiece->getPieceType() == PAWN && (candidateOffset % TOP_LEFT == 0 || candidateOffset % TOP_RIGHT == 0) && board.getBoard()[destination]->isEmpty()) { 
 
 			delete board.getBoard()[r + c];
 			board.getBoard()[r + c] = new Piece();
 
 		}
 
-		if (currentPiece->getPieceType() == KING && candidateOffset % TWO_LEFT == 0) {
+		if (currentPiece->getPieceType() == KING && candidateOffset % TWO_LEFT == 0) { //performs a castle
 
 			if (candidateOffset == TWO_LEFT) {
 
@@ -139,17 +141,17 @@ void Game::startGame() {
 
 		}
 
-		if (currentPiece->getPieceType() == PAWN || !board.getBoard()[destination]->isEmpty()) {
+		if (currentPiece->getPieceType() == PAWN || !board.getBoard()[destination]->isEmpty()) { //resets the currentSavedBoardState counter if either a pawn is moving or a piece has been taken
 
 			currentSavedBoardState = 0;
 
 		}
 
-		executeMove(currentPosition, destination);
+		executeMove(currentPosition, destination); //executes the wanted move
 
 		int promotionRank = playerColour == WHITE ? 0 : 7;
 
-		while (board.getBoard()[destination]->getPieceType() == PAWN && destination / 8 == promotionRank) {
+		while (board.getBoard()[destination]->getPieceType() == PAWN && destination / 8 == promotionRank) { //check for pawn promotion
 
 			wcout << "What would you like your pawn to turn into? (k - knight, r - rook, b - bishop, q - queen): ";
 			char promotionPiece;
@@ -190,7 +192,7 @@ void Game::startGame() {
 
 		}
 
-		if (playerColour == WHITE) {
+		if (playerColour == WHITE) { //changes whose turn it is
 
 			playerColour = BLACK;
 
@@ -201,16 +203,16 @@ void Game::startGame() {
 
 		}
 
-		board.printBoard(playerColour);
+		board.printBoard(playerColour); //prints the new board after the move has been executed
 
-		canLoad = false;
-		saveBoardState();
+		canLoad = false; //prevents loading a previous game after a move has been made
+		saveBoardState(); //saves the new board state
 
 	}
 
 }
 
-int Game::getCoordinates(char coordinate[2]) {
+int Game::getCoordinates(char coordinate[2]) { //transforms the coordinates given by the player into an integer
 
 	if (coordinate[0] >= 'a' && coordinate[0] <= 'h' && coordinate[1] >= '1' && coordinate[1] <= '8') {
 
@@ -222,16 +224,16 @@ int Game::getCoordinates(char coordinate[2]) {
 
 }
 
-void Game::executeMove(int currentPosition, int destination) {
+void Game::executeMove(int currentPosition, int destination) { 
 
-	delete board.getBoard()[destination];
-	board.getBoard()[destination] = board.getBoard()[currentPosition];
-	board.getBoard()[currentPosition] = new Piece();
-	board.getBoard()[destination]->setHasMoved(true);
+	delete board.getBoard()[destination]; //releases the data of the destination square
+	board.getBoard()[destination] = board.getBoard()[currentPosition]; //sets the destination square to the one from the starting position
+	board.getBoard()[currentPosition] = new Piece(); //sets the starting position to an empty square
+	board.getBoard()[destination]->setHasMoved(true); //remembers that the piece has moved
 
 }
 
-void Game::setEnPassant() {
+void Game::setEnPassant() { //sets every piece of the board's ability to en passant to false
 
 	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
 
@@ -242,7 +244,7 @@ void Game::setEnPassant() {
 
 }
 
-void Game::saveGame(COLOURS playerColour) {
+void Game::saveGame(COLOURS playerColour) { //saves the state of the board as well as every characteristic a piece on it has and also which player is supposed to play next
 
 	ofstream outFile(fileName, ios::binary);
 
@@ -275,7 +277,7 @@ void Game::saveGame(COLOURS playerColour) {
 
 }
 
-void Game::loadGame(COLOURS& playerColour) {
+void Game::loadGame(COLOURS& playerColour) { //loads the saved game 
 
 	ifstream inFile(fileName, ios::binary);
 
@@ -299,9 +301,9 @@ void Game::loadGame(COLOURS& playerColour) {
 		inFile.read(reinterpret_cast<char*>(&canEnPassantLeft), sizeof(bool));
 		inFile.read(reinterpret_cast<char*>(&canEnPassantRight), sizeof(bool));
 
-		delete board.getBoard()[i];
+		delete board.getBoard()[i]; //deletes the starting board that is made when the game starts
 
-		switch (pieceType) {
+		switch (pieceType) { //changes it to the appropriate piece
 
 		case EMPTY:
 
@@ -352,13 +354,13 @@ void Game::loadGame(COLOURS& playerColour) {
 
 }
 
-bool Game::isWin(COLOURS playerColour) {
+bool Game::isWin(COLOURS playerColour) { //checks wether the player whose turn it is has lost
 
 	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
 
 		Piece* currentPiece = board.getBoard()[i];
 
-		if (currentPiece->getPieceColour() == playerColour && hasLegalMoves(currentPiece, i)) {
+		if (currentPiece->getPieceColour() == playerColour && hasLegalMoves(currentPiece, i)) { //checks if a piece the player has has any legal move
 
 			return false;
 
@@ -366,27 +368,27 @@ bool Game::isWin(COLOURS playerColour) {
 
 	}
 
-	return isCheck(board.getBoard(), getKingPosition(playerColour, board.getBoard()));
+	return isCheck(board.getBoard(), getKingPosition(playerColour, board.getBoard())); //returns true if the player is in check ending the game and false and continuing the game if not
 
 }
 
-bool Game::isDraw(COLOURS playerColour) {
+bool Game::isDraw(COLOURS playerColour) { //checks wether the game is a draw
 
-	int sum = 0;
+	int sum = 0; //how many turns have gone without a pawn being moved or a piece being taken
 
 	for (size_t i = 0; i < currentSavedBoardState; i++) {
 
-		if (numberOfRepetitionsOfBoardState[i] >= 3) {
+		if (numberOfRepetitionsOfBoardState[i] >= 3) { //checks if we've reached a three fold repetition
 
 			return true;
 
 		}
 
-		sum += numberOfRepetitionsOfBoardState[i];
+		sum += numberOfRepetitionsOfBoardState[i]; //adds the number of times we've seen the current board state
 
 	}
 
-	if (sum >= 50) {
+	if (sum >= 50) { //checks if we`ve had 50 turns without a pawn being moved or a piece being taken
 
 		return true;
 
@@ -396,31 +398,31 @@ bool Game::isDraw(COLOURS playerColour) {
 
 	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
 
-		if (board.getBoard()[i]->getPieceType() == KNIGHT) {
+		if (board.getBoard()[i]->getPieceType() == KNIGHT) { //checks if the current piece is a knight
 
 			numberOfKnights++;
 
 		}
-		else if (board.getBoard()[i]->getPieceType() == BISHOP) {
+		else if (board.getBoard()[i]->getPieceType() == BISHOP) { //checks if the current piece is a bishop
 
 			numberOfBishops++;
 
 		}
-		else if (board.getBoard()[i]->getPieceType() == KING || board.getBoard()[i]->getPieceType() == EMPTY) {
+		else if (board.getBoard()[i]->getPieceType() == KING || board.getBoard()[i]->getPieceType() == EMPTY) { //checks if it's a king or an empty space
 
 			continue;
 
 		}
-		else {
+		else { //checks if it's any other piece
 
-			numberOfKnights = 2;
+			numberOfKnights = 2; //prevents a draw from having only 1 bishop or only 1 knight on the board
 			break;
 
 		}
 
 	}
 
-	if (numberOfBishops + numberOfKnights <= 1) {
+	if (numberOfBishops + numberOfKnights <= 1) { //draws the game if there is only 1 bishop or only 1 knight on the board or no pieces other than the kings
 
 		return true;
 
@@ -430,7 +432,7 @@ bool Game::isDraw(COLOURS playerColour) {
 
 		Piece* currentPiece = board.getBoard()[i];
 
-		if (currentPiece->getPieceColour() == playerColour && hasLegalMoves(currentPiece, i)) {
+		if (currentPiece->getPieceColour() == playerColour && hasLegalMoves(currentPiece, i)) { //checks if any piece has a legal move
 
 			return false;
 
@@ -438,11 +440,11 @@ bool Game::isDraw(COLOURS playerColour) {
 
 	}
 
-	return !isCheck(board.getBoard(), getKingPosition(playerColour, board.getBoard()));
+	return !isCheck(board.getBoard(), getKingPosition(playerColour, board.getBoard())); //return true if the king isn't in check and false if it is
 
 }
 
-bool Game::hasLegalMoves(Piece* piece, int currentPosition) {
+bool Game::hasLegalMoves(Piece* piece, int currentPosition) { //checks if a piece has any legal moves
 
 	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
 
@@ -458,7 +460,7 @@ bool Game::hasLegalMoves(Piece* piece, int currentPosition) {
 
 }
 
-void Game::saveBoardState() {
+void Game::saveBoardState() { //saves the current board state and how many times it has been seen
 
 	char boardState[BOARD_SIZE * BOARD_SIZE + 1];
 
@@ -489,7 +491,7 @@ void Game::saveBoardState() {
 
 }
 
-bool Game::isKingSafe(COLOURS playerColour, int currentPosition, int destination) {
+bool Game::isKingSafe(COLOURS playerColour, int currentPosition, int destination) { //checks if the king is safe by artificaly executing the move
 
 	Piece* destinationPiece = board.getBoard()[destination];
 	board.getBoard()[destination] = board.getBoard()[currentPosition];

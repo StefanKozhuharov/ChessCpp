@@ -5,13 +5,13 @@ class Piece {
 
 private:
 
-	COLOURS pieceColour; //stores the colour of the piece (black/white)
-	PIECES pieceType; //stores the type of the piece (pawn, king, knight etc.)
+	COLOURS pieceColour;
+	PIECES pieceType;
 	bool hasMoved;
 	bool canEnPassantLeft;
 	bool canEnPassantRight;
-	const wchar_t* visualizationCode; //stores the code behind the visualization for the piece in the console
-	void updateVisualizationCode(); //sets the square to the appropriate piece or leaves it empty
+	const wchar_t* visualizationCode; 
+	void updateVisualizationCode(); 
 
 public:
 
@@ -34,10 +34,10 @@ public:
 
 	bool isEmpty() const;
 
-	bool isLegalMove(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]); //checks rules that every piece needs to follow
+	bool isLegalMove(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]); 
 
-	virtual bool canAttack(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]); //checks if a specific piece can move to attack an enemy piece
-	virtual bool canMove(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]); //checks if a specific piece can move to an empty square
+	virtual bool canAttack(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]); 
+	virtual bool canMove(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]); 
 	virtual bool isValidOffset(int currentPosition, int candidateOffset);
 
 };

@@ -9,11 +9,11 @@ const int KNIGHT_LEFT_DOWN = 6;   // moves one square down, two left
 const int KNIGHT_RIGHT_DOWN = 10;  // moves one square down, two right
 const int KNIGHT_DOWN_LEFT = 15;  // moves two squares down, one left
 const int KNIGHT_DOWN_RIGHT = 17;  // moves two squares down, one right
-const int NUMBER_OF_MOVES = 8;
+const int NUMBER_OF_MOVES = 8; //number of different offsets the knight can have
 
 Knight::Knight(COLOURS pieceColour) : Piece(pieceColour, KNIGHT) {}
 
-bool Knight::isValidOffset(int currentPosition, int candidateOffset) {
+bool Knight::isValidOffset(int currentPosition, int candidateOffset) { //checks if the wanted offset is valid
 
 	const int KNIGHT_MOVES[NUMBER_OF_MOVES] = {
 
@@ -48,7 +48,7 @@ bool Knight::isValidOffset(int currentPosition, int candidateOffset) {
 
 }
 
-bool Knight::isFirstColumnException(int currentPosition, int candidateOffset) {
+bool Knight::isFirstColumnException(int currentPosition, int candidateOffset) { //prevents the knight from moving left in the first column
 
 	if (isFirstColumn(currentPosition) && (candidateOffset == KNIGHT_UP_LEFT || candidateOffset == KNIGHT_LEFT_UP || candidateOffset == KNIGHT_LEFT_DOWN || candidateOffset == KNIGHT_DOWN_LEFT)) {
 
@@ -60,7 +60,7 @@ bool Knight::isFirstColumnException(int currentPosition, int candidateOffset) {
 
 }
 
-bool Knight::isSecondColumnException(int currentPosition, int candidateOffset) {
+bool Knight::isSecondColumnException(int currentPosition, int candidateOffset) { //prevents the knight from moving left twice in the second column
 
 	if (isSecondColumn(currentPosition) && (candidateOffset == KNIGHT_LEFT_UP || candidateOffset == KNIGHT_LEFT_DOWN)) {
 
@@ -72,7 +72,7 @@ bool Knight::isSecondColumnException(int currentPosition, int candidateOffset) {
 
 }
 
-bool Knight::isSeventhColumnException(int currentPosition, int candidateOffset) {
+bool Knight::isSeventhColumnException(int currentPosition, int candidateOffset) { //prevents the knight from moving right twice in the seventh column
 
 	if (isSeventhColumn(currentPosition) && (candidateOffset == KNIGHT_RIGHT_UP || candidateOffset == KNIGHT_RIGHT_DOWN)) {
 
@@ -84,7 +84,7 @@ bool Knight::isSeventhColumnException(int currentPosition, int candidateOffset) 
 
 }
 
-bool Knight::isEighthColumnException(int currentPosition, int candidateOffset) {
+bool Knight::isEighthColumnException(int currentPosition, int candidateOffset) { //prevents the knight from moving right in the eighth column
 
 	if (isEighthColumn(currentPosition) && (candidateOffset == KNIGHT_UP_RIGHT || candidateOffset == KNIGHT_RIGHT_UP || candidateOffset == KNIGHT_RIGHT_DOWN || candidateOffset == KNIGHT_DOWN_RIGHT)) {
 

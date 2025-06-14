@@ -12,7 +12,7 @@
 
 using namespace std;
 
-Board::Board() {
+Board::Board() { //sets up the starting board
 
 	setupBackRank(BLACK, 0);
 	setupPawns(BLACK, 1);
@@ -22,7 +22,7 @@ Board::Board() {
 
 }
 
-void Board::setupPawns(COLOURS pieceColour, int row) {
+void Board::setupPawns(COLOURS pieceColour, int row) { //sets up the pawns on row 2 and 7
 
 	for (size_t i = 0; i < BOARD_SIZE; i++) {
 
@@ -32,7 +32,7 @@ void Board::setupPawns(COLOURS pieceColour, int row) {
 
 }
 
-void Board::setupBackRank(COLOURS pieceColour, int row) {
+void Board::setupBackRank(COLOURS pieceColour, int row) { //sets up the back rank of the white and black player
 
 	board[row * BOARD_SIZE + 0] = new Rook(pieceColour);
 	board[row * BOARD_SIZE + 1] = new Knight(pieceColour);
@@ -45,7 +45,7 @@ void Board::setupBackRank(COLOURS pieceColour, int row) {
 
 }
 
-void Board::setupEmptySquares() {
+void Board::setupEmptySquares() { //sets all other squares as empty
 
 	for (size_t i = 16; i < 48; i++) {
 
@@ -55,19 +55,19 @@ void Board::setupEmptySquares() {
 
 }
 
-Piece** Board::getBoard() {
+Piece** Board::getBoard() { //returns the board
 
 	return board;
 
 }
 
-void Board::printBoard(COLOURS playerColour) {
+void Board::printBoard(COLOURS playerColour) { //prints the board
 
-	wcout << L"\033[2J\033[H\033[3J";
+	wcout << L"\033[2J\033[H\033[3J"; //deletes previous console messages
 
 	int bgColour = RED;
 
-	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
+	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) { //sets up the colours of the board squares
 
 		if ((i + i / 8) % 2 == 0) {
 
@@ -85,12 +85,12 @@ void Board::printBoard(COLOURS playerColour) {
 
 			resetColour();
 
-			if (playerColour == BLACK) {
+			if (playerColour == BLACK) { //sets up the numbers next to the board for when the board is flipped for the black player
 
 				wcout << i / 8 + 1 << " ";
 
 			}
-			else {
+			else { //sets up the numbers next to the board for when the board is flipped for the white player
 
 				wcout << (BOARD_SIZE * BOARD_SIZE - i) / 8 << " ";
 
@@ -98,12 +98,12 @@ void Board::printBoard(COLOURS playerColour) {
 
 		}
 
-		Piece* currentPiece = playerColour == WHITE ? board[i] : board[BOARD_SIZE * BOARD_SIZE - i - 1];
+		Piece* currentPiece = playerColour == WHITE ? board[i] : board[BOARD_SIZE * BOARD_SIZE - i - 1]; //gets the current piece if it's white's turn and the opposite if it's black's turn
 
-		setColour(currentPiece->getPieceColour(), bgColour);
-		wcout << currentPiece->getVisualizationCode() << " ";
+		setColour(currentPiece->getPieceColour(), bgColour); //sets the colour of the piece
+		wcout << currentPiece->getVisualizationCode() << " "; //prints the piece and the painted square
 
-		if ((i + 1) % 8 == 0) {
+		if ((i + 1) % 8 == 0) { //adds a new line if we've reached the end of a row
 
 			resetColour();
 			wcout << endl;
@@ -113,9 +113,9 @@ void Board::printBoard(COLOURS playerColour) {
 	}
 
 	resetColour();
-	wcout << "  ";
+	wcout << "  "; //adds a space between each piece
 
-	for (size_t i = 0; i < BOARD_SIZE; i++) {
+	for (size_t i = 0; i < BOARD_SIZE; i++) { //sets up the characters below the board according to which player's turn it is
 
 		char character;
 
@@ -139,14 +139,14 @@ void Board::printBoard(COLOURS playerColour) {
 
 }
 
-void Board::setColour(int textColour, int bgColour) {
+void Board::setColour(int textColour, int bgColour) { //sets the colour of a piece and the square behind it
 
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, textColour + (bgColour << 4));
 
 }
 
-void Board::resetColour() {
+void Board::resetColour() { //resets the changes to the console colours we've made
 
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, WHITE + (BLACK << 4));

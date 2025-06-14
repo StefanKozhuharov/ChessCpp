@@ -5,7 +5,7 @@
 
 using namespace std;
 
-bool isFirstColumn(int currentPosition) {
+bool isFirstColumn(int currentPosition) { //checks if the current position of the piece is in the first column
 
 	if (currentPosition % 8 == 0) {
 
@@ -17,7 +17,7 @@ bool isFirstColumn(int currentPosition) {
 
 }
 
-bool isSecondColumn(int currentPosition) {
+bool isSecondColumn(int currentPosition) { //checks if the current position of the piece is in the second column
 
 	if (currentPosition % 8 == 1) {
 
@@ -29,7 +29,7 @@ bool isSecondColumn(int currentPosition) {
 
 }
 
-bool isSeventhColumn(int currentPosition) {
+bool isSeventhColumn(int currentPosition) { //checks if the current position of the piece is in the seventh column
 
 	if (currentPosition % 8 == 6) {
 
@@ -41,7 +41,7 @@ bool isSeventhColumn(int currentPosition) {
 
 }
 
-bool isEighthColumn(int currentPosition) {
+bool isEighthColumn(int currentPosition) { //checks if the current position of the piece is in the eighth column
 
 	if (currentPosition % 8 == 7) {
 
@@ -53,7 +53,7 @@ bool isEighthColumn(int currentPosition) {
 
 }
 
-int getKingPosition(COLOURS pieceColour, Piece* board[BOARD_SIZE * BOARD_SIZE]) {
+int getKingPosition(COLOURS pieceColour, Piece* board[BOARD_SIZE * BOARD_SIZE]) { //returns the position of the king by going through the board untill he is found
 
 	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
 
@@ -69,7 +69,7 @@ int getKingPosition(COLOURS pieceColour, Piece* board[BOARD_SIZE * BOARD_SIZE]) 
 
 }
 
-bool isCheck(Piece* board[BOARD_SIZE * BOARD_SIZE], int kingPosition) {
+bool isCheck(Piece* board[BOARD_SIZE * BOARD_SIZE], int kingPosition) { //checks if any enemy piece has an attacking move that can capture the king
 
 	Piece* king = board[kingPosition];
 
@@ -89,7 +89,7 @@ bool isCheck(Piece* board[BOARD_SIZE * BOARD_SIZE], int kingPosition) {
 
 }
 
-bool isPathClear(int currentPosition, int candidateOffset, int repititions, Piece* board[BOARD_SIZE * BOARD_SIZE]) {
+bool isPathClear(int currentPosition, int candidateOffset, int repititions, Piece* board[BOARD_SIZE * BOARD_SIZE]) { //checks if every square on the path of a piece is empty
 
 	int nextSquare = currentPosition;
 

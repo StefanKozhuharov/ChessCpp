@@ -14,7 +14,7 @@ private:
 
 	Piece* board[BOARD_SIZE * BOARD_SIZE];
 
-	void setupPawns(COLOURS pieceColour, int row); //first row is 0 second is 1 etc.
+	void setupPawns(COLOURS pieceColour, int row);
 	void setupBackRank(COLOURS pieceColour, int row);
 	void setupEmptySquares();
 	void setColour(int textColour, int bgColour);

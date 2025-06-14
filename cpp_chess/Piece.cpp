@@ -15,6 +15,8 @@ const wchar_t* PIECE_CODES[] = {
 
 };
 
+//stores the colour of a piece , it's type, it's visualization code, wether it has moved, wether it can en passant to the right and to the left
+
 Piece::Piece() : pieceColour(NONE), pieceType(EMPTY), visualizationCode(L" "), hasMoved(false), canEnPassantLeft(false), canEnPassantRight(false) {}
 
 Piece::Piece(COLOURS pieceColour, PIECES pieceType) : pieceColour(pieceColour), pieceType(pieceType), hasMoved(false), canEnPassantLeft(false), canEnPassantRight(false) {
@@ -74,7 +76,7 @@ void Piece::updateVisualizationCode() {
 
 }
 
-bool Piece::canAttack(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]) {
+bool Piece::canAttack(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]) { 
 
 	return false;
 
@@ -118,21 +120,23 @@ void Piece::setCanEnPassantRight(bool canEnPassantRight) {
 
 }
 
-bool Piece::isEmpty() const {
+bool Piece::isEmpty() const { //checks if the selected square is empty
 
 	return pieceColour == NONE || pieceType == EMPTY;
 
 }
 
-bool Piece::isValidOffset(int currentPosition, int candidateOffset) {
+bool Piece::isValidOffset(int currentPosition, int candidateOffset) { 
 
 	return false;
 
 }
 
-bool Piece::isLegalMove(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]) {
+bool Piece::isLegalMove(int currentPosition, int destination, Piece* board[BOARD_SIZE * BOARD_SIZE]) { //checks if the wanted move is legal
 
 	int candidateOffset = destination - currentPosition;
+
+	//checks if the destination is outside the confines of the board, wether it's offset is valid and wether we have even selected a piece
 
 	if (destination < 0 || destination >= BOARD_SIZE * BOARD_SIZE || !isValidOffset(currentPosition, candidateOffset) || isEmpty()) {
 
@@ -140,12 +144,12 @@ bool Piece::isLegalMove(int currentPosition, int destination, Piece* board[BOARD
 
 	}
 
-	if (board[destination]->getPieceColour() == NONE) {
+	if (board[destination]->getPieceColour() == NONE) { //executes the canMove function if the destination square is empty
 
 		return canMove(currentPosition, destination, board);
 
 	}
-	else if (board[destination]->getPieceColour() != board[currentPosition]->getPieceColour()) {
+	else if (board[destination]->getPieceColour() != board[currentPosition]->getPieceColour()) { //executes the canAttack function if the destination square is an enemy piece
 
 		return canAttack(currentPosition, destination, board);
 
