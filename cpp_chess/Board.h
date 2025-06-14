@@ -19,10 +19,15 @@ private:
 	void setupEmptySquares();
 	void setColour(int textColour, int bgColour);
 	void resetColour();
+	void copy(const Board& other);
+	void free();
 
 public:
 
 	Board();
+	~Board();
+	Board& operator=(const Board& other);
+	Board(const Board& other);
 	Piece** getBoard();
 	void printBoard(COLOURS playerColour);
 

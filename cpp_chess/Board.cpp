@@ -9,6 +9,7 @@
 #include "Queen.h"
 #include "Pawn.h"
 #include "Board.h"
+#include "PieceFactory.hpp"
 
 using namespace std;
 
@@ -150,5 +151,55 @@ void Board::resetColour() { //resets the changes to the console colours we've ma
 
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, WHITE + (BLACK << 4));
+
+}
+
+void Board::copy(const Board& other) {
+
+	PieceFactory pieceFactory;
+
+	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
+
+		board[i] = pieceFactory.createPiece(other.board[i]->getPieceType(), other.board[i]->getPieceColour());
+		board[i]->setCanEnPassantLeft(other.board[i]->getCanEnPassantLeft());
+		board[i]->setCanEnPassantRight(other.board[i]->getCanEnPassantRight());
+		board[i]->setHasMoved(other.board[i]->getHasMoved());
+
+	}
+
+}
+
+void Board::free() {
+
+	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
+
+		delete board[i];
+
+	}
+
+}
+
+Board::Board(const Board& other) {
+
+	copy(other);
+
+}
+
+Board& Board::operator=(const Board& other) {
+
+	if (this == &other) {
+
+		free();
+		copy(other);
+
+	}
+
+	return *this;
+
+}
+
+Board::~Board() {
+
+	free();
 
 }
