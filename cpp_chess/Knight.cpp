@@ -22,7 +22,7 @@ bool Knight::isValidOffset(int currentPosition, int candidateOffset) {
 		KNIGHT_LEFT_UP,
 		KNIGHT_RIGHT_UP,
 		KNIGHT_LEFT_DOWN,
-		KNIGHT_DOWN_RIGHT,
+		KNIGHT_RIGHT_DOWN,
 		KNIGHT_DOWN_LEFT,
 		KNIGHT_DOWN_RIGHT
 
