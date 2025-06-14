@@ -386,6 +386,40 @@ bool Game::isDraw(COLOURS playerColour) {
 
 	}
 
+	int numberOfBishops = 0, numberOfKnights = 0;
+
+	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
+
+		if (board.getBoard()[i]->getPieceType() == KNIGHT) {
+
+			numberOfKnights++;
+
+		}
+		else if (board.getBoard()[i]->getPieceType() == BISHOP) {
+
+			numberOfBishops++;
+
+		}
+		else if (board.getBoard()[i]->getPieceType() == KING || board.getBoard()[i]->getPieceType() == EMPTY) {
+
+			continue;
+
+		}
+		else {
+
+			numberOfKnights = 2;
+			break;
+
+		}
+
+	}
+
+	if (numberOfBishops + numberOfKnights <= 1) {
+
+		return true;
+
+	}
+
 	for (size_t i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
 
 		Piece* currentPiece = board.getBoard()[i];
