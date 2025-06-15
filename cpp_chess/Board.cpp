@@ -187,7 +187,7 @@ Board::Board(const Board& other) {
 
 Board& Board::operator=(const Board& other) {
 
-	if (this == &other) {
+	if (this != &other) {
 
 		free();
 		copy(other);
